@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+  
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts/5.5.0/files/dist/echarts.min.js"></script>
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    
+    var option;
+
+    option = {
+  title: {
+    text: 'CMAB-Xiaomi-Camera'
+  },
+  tooltip: {
+    trigger: 'axis'
+  },
+  legend: {
+    data: ['Snippet 10', 'Snippet 11', 'Snippet 16', 'Snippet 17']
+  },
+  grid: [
+    {
+    left: '3%',
+    right: '4%',
+    top: '10%',
+    bottom: '50%',
+    containLabel: true
+    },
+    {
+    left: '3%',
+    right: '4%',
+    top: '55%',
+    bottom: '5%',
+    containLabel: true
+    },
+  ],
+  toolbox: {
+    feature: {
+      saveAsImage: {}
+    }
+  },
+ xAxis: [
+    {
+      type: 'category',
+      boundaryGap: false,
+      gridIndex: 0,
+      data: ['0min', '24min', '48min', '72min', '96min', '120min', '144min', '168min', '192min', '216min', '240min']
+    },
+    {
+      type: 'category',
+      boundaryGap: false,
+      gridIndex: 1,
+      data: ['1 slot', '2 slot', '3 slot', '4 slot', '5 slot', '6 slot', '7 slot', '8 slot', '9 slot', '10 slot']
+    },
+  ],
+  yAxis: [
+    {
+      type: 'value',
+      gridIndex: 0,
+    },
+    {
+      type: 'value', 
+      gridIndex: 1 
+    }
+  ],
+  series: [
+    {
+      name: 'Snippet 10',
+      type: 'line',
+      areaStyle: {},
+      emphasis: {
+        focus: 'series'
+      },
+      label: { 
+        show: true,
+        position: 'top',
+        fontSize: 10
+      },
+      data: [0, 3, 6, 7, 7, 8, 8, 8, 8, 9, 9]
+    },
+    {
+      name: 'Snippet 11',
+      type: 'line',
+      areaStyle: {},
+      emphasis: {
+        focus: 'series'
+      },
+      label: { 
+        show: true,
+        position: 'top',
+        fontSize: 10
+      },
+      data: [0, 0, 1, 2, 4, 4, 4, 6, 8, 8, 8]
+    },
+    {
+      name: 'Snippet 16',
+      type: 'line',
+      areaStyle: {},
+      emphasis: {
+        focus: 'series'
+      },
+      label: { 
+        show: true,
+        position: 'top',
+        fontSize: 10
+      },
+      data: [0, 3, 5, 7, 8, 8, 8, 8, 8, 8, 8]
+    },
+    {
+      name: 'Snippet 17',
+      type: 'line',
+      areaStyle: {},
+      emphasis: {
+        focus: 'series'
+      },
+      label: { 
+        show: true,
+        position: 'top',
+        fontSize: 10
+      },
+      data: [0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3]
+    },
+    {
+      name: 'Snippet 10',
+      type: 'line',
+      label: { 
+        show: true,
+        position: 'top',
+        fontSize: 10
+      },
+      xAxisIndex: 1, 
+      yAxisIndex: 1,
+      data: [3, 3, 1, 0, 1, 0, 0, 0, 1, 0]
+    },
+    {
+      name: 'Snippet 11',
+      type: 'line',
+      label: { 
+        show: true,
+        position: 'top',
+        fontSize: 10
+      },
+      xAxisIndex: 1, 
+      yAxisIndex: 1,
+      data: [0, 1, 1, 2, 0, 0, 2, 2, 0, 0]
+    },
+    {
+      name: 'Snippet 16',
+      type: 'line',
+      label: { 
+        show: true,
+        position: 'top',
+        fontSize: 10
+      },
+      xAxisIndex: 1, 
+      yAxisIndex: 1,
+      data: [3, 2, 2, 1, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      name: 'Snippet 17',
+      type: 'line',
+      label: { 
+        show: true,
+        position: 'top',
+        fontSize: 10
+      },
+      xAxisIndex: 1, 
+      yAxisIndex: 1,
+      data: [1, 0, 0, 0, 1, 0, 0, 0, 1, 0]
+    },
+  ]
+};
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>

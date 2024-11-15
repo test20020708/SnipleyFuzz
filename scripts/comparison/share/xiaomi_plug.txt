@@ -1,0 +1,4 @@
+seed-number: 8
+path-number: 40
+crash-number: 0
+mutation-number: 27.333333333333332

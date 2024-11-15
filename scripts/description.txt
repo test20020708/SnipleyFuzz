@@ -1,0 +1,17 @@
+## The folder contains experiment script files.
+## The devices used in the experiment are stored in the 'device' folder.
+## The Fuzzing methods compared in the experiment are stored in the 'Fuzzing' folder.
+
+experiment setup:
+(1) the ability to find bugs:
+   ** Running the program for 24 hours to record code coverage.
+   ** Running the program for 24 hours to record crash inputs.
+(2) comparsion with current methods:
+   ** Running the program for 24 hours to record code coverage compared with current methods.
+   ** Running the program for 24 hours to record code coverage compared with current methods.
+   ** TTE compared with current methods.
+(3) ablation experiment:
+   ** Running the program for 24 hours to record code coverage compared with ablation methods.
+   ** Running the program for 24 hours to record code coverage compared with ablation methods.
+   ** TTE compared with ablation methods.
+

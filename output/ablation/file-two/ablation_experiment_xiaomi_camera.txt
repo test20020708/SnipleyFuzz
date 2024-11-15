@@ -1,0 +1,35 @@
+'xiaomi_camera-M-S': {'seed-number': 2, 'path-number': 10, 'mutation-number': 0.0}
+'xiaomi_camera-M-S': {'seed-number': 2, 'path-number': 10, 'mutation-number': 0.0}
+'xiaomi_camera-M-S': {'seed-number': 2, 'path-number': 10, 'mutation-number': 0.0}
+'xiaomi_camera-M-S': {'seed-number': 3, 'path-number': 11, 'mutation-number': 420.0}
+'xiaomi_camera-M-S': {'seed-number': 3, 'path-number': 11, 'mutation-number': 420.0}
+'xiaomi_camera-M-S': {'seed-number': 3, 'path-number': 11, 'mutation-number': 420.0}
+'xiaomi_camera-M-S': {'seed-number': 3, 'path-number': 11, 'mutation-number': 420.0}
+'xiaomi_camera-M-S': {'seed-number': 3, 'path-number': 11, 'mutation-number': 420.0}
+'xiaomi_camera-M-S': {'seed-number': 4, 'path-number': 12, 'mutation-number': 582.0}
+'xiaomi_camera-M-S': {'seed-number': 4, 'path-number': 12, 'mutation-number': 582.0}
+'xiaomi_camera-M-S': {'seed-number': 4, 'path-number': 12, 'mutation-number': 582.0}
+
+'xiaomi_camera': {'seed-number': 2, 'path-number': 10, 'mutation-number': 0.0}
+'xiaomi_camera': {'seed-number': 3, 'path-number': 12, 'mutation-number': 31.0}
+'xiaomi_camera': {'seed-number': 4, 'path-number': 16, 'mutation-number': 26.5}
+'xiaomi_camera': {'seed-number': 5, 'path-number': 19, 'mutation-number': 33.666666666666664}
+'xiaomi_camera': {'seed-number': 6, 'path-number': 24, 'mutation-number': 25.5}
+'xiaomi_camera': {'seed-number': 7, 'path-number': 32, 'mutation-number': 30.2}
+'xiaomi_camera': {'seed-number': 9, 'path-number': 34, 'mutation-number': 30.428571428571427}
+'xiaomi_camera': {'seed-number': 9, 'path-number': 35, 'mutation-number': 30.428571428571427}
+'xiaomi_camera': {'seed-number': 10, 'path-number': 39, 'mutation-number': 50.75}
+'xiaomi_camera': {'seed-number': 11, 'path-number': 42, 'mutation-number': 49.55555555555556}
+'xiaomi_camera': {'seed-number': 12, 'path-number': 48, 'mutation-number': 48.8}
+
+'xiaomi_camera-M-SN': {'seed-number': 2, 'path-number': 10, 'mutation-number': 0.0}
+'xiaomi_camera-M-SN': {'seed-number': 2, 'path-number': 10, 'mutation-number': 0.0}
+'xiaomi_camera-M-SN': {'seed-number': 3, 'path-number': 12, 'mutation-number': 116.0}
+'xiaomi_camera-M-SN': {'seed-number': 4, 'path-number': 19, 'mutation-number': 75.0}
+'xiaomi_camera-M-SN': {'seed-number': 5, 'path-number': 23, 'mutation-number': 57.666666666666664}
+'xiaomi_camera-M-SN': {'seed-number': 6, 'path-number': 24, 'mutation-number': 58.5}
+'xiaomi_camera-M-SN': {'seed-number': 7, 'path-number': 30, 'mutation-number': 79.6}
+'xiaomi_camera-M-SN': {'seed-number': 8, 'path-number': 37, 'mutation-number': 77.0}
+'xiaomi_camera-M-SN': {'seed-number': 9, 'path-number': 40, 'mutation-number': 67.28571428571429}
+'xiaomi_camera-M-SN': {'seed-number': 10, 'path-number': 44, 'mutation-number': 70.75}
+'xiaomi_camera-M-SN': {'seed-number': 11, 'path-number': 47, 'mutation-number': 69.11111111111111}

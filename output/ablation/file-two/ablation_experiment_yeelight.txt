@@ -1,0 +1,33 @@
+======== yeelight ========
+is_crash: True
+crash time: 0.29586378461784785
+0h: (seed number: 2, Path number: 11, Mutation Times: 0.0)
+
+======== yeelight-M-SN ========
+is_crash: False
+0h: (seed number: 2, Path number: 11, Mutation Times: 0.0)
+1h: (seed number: 8, Path number: 165, Mutation Times: 28.5)
+2h: (seed number: 14, Path number: 284, Mutation Times: 21.083333333333332)
+3h: (seed number: 19, Path number: 376, Mutation Times: 16.11764705882353)
+4h: (seed number: 23, Path number: 464, Mutation Times: 13.80952380952381)
+5h: (seed number: 27, Path number: 535, Mutation Times: 12.4)
+6h: (seed number: 30, Path number: 621, Mutation Times: 12.464285714285714)
+7h: (seed number: 33, Path number: 676, Mutation Times: 11.806451612903226)
+8h: (seed number: 35, Path number: 738, Mutation Times: 11.363636363636363)
+9h: (seed number: 38, Path number: 785, Mutation Times: 10.944444444444445)
+10h: (seed number: 40, Path number: 852, Mutation Times: 10.789473684210526)
+
+======== yeelight-M-S ========
+is_crash: False
+0h: (seed number: 2, Path number: 11, Mutation Times: 0.0)
+1h: (seed number: 3, Path number: 35, Mutation Times: 85.0)
+2h: (seed number: 3, Path number: 35, Mutation Times: 85.0)
+3h: (seed number: 3, Path number: 35, Mutation Times: 85.0)
+4h: (seed number: 3, Path number: 35, Mutation Times: 85.0)
+5h: (seed number: 3, Path number: 35, Mutation Times: 85.0)
+6h: (seed number: 3, Path number: 35, Mutation Times: 85.0)
+7h: (seed number: 3, Path number: 35, Mutation Times: 85.0)
+8h: (seed number: 3, Path number: 35, Mutation Times: 85.0)
+9h: (seed number: 3, Path number: 35, Mutation Times: 85.0)
+10h: (seed number: 3, Path number: 35, Mutation Times: 85.0)
+

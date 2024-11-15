@@ -1,0 +1,8 @@
+Message Index-0
+IP:192.168.1.10
+
+Port:55443
+
+Content:{"id"2:1{"id":1{"i1{"id":1{"i1{"id":1{"i1{"id":1{"i1{"id":1{"id":1{""""id":1,"method":"get_prop","params":["c&ol.or_mo_d-e^", "p}ower#"]}
+
+

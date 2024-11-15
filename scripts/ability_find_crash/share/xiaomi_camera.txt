@@ -1,0 +1,4 @@
+seed-number: 2
+path-number: 10
+crash-number: 0
+mutation-number: 0

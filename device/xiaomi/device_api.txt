@@ -1,0 +1,4 @@
+Device open source API:
+(1)bulb : https://home.miot-spec.com/spec?type=urn:miot-spec-v2:device:light:0000A001:yeelink-mbulb3:1:0000C802
+(2)camera : https://home.miot-spec.com/spec?type=urn:miot-spec-v2:device:camera:0000A01C:chuangmi-069a01:2
+(3)plug : https://home.miot-spec.com/spec?type=urn:miot-spec-v2:device:outlet:0000A002:cuco-v3:2

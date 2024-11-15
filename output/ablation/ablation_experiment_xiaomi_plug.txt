@@ -1,0 +1,39 @@
+======== xiaomi_plug-M-SN ========
+is_crash: False
+0h: (seed number: 2, Path number: 13)
+1h: (seed number: 2, Path number: 14)
+2h: (seed number: 3, Path number: 14)
+3h: (seed number: 3, Path number: 14)
+4h: (seed number: 3, Path number: 14)
+5h: (seed number: 3, Path number: 14)
+6h: (seed number: 3, Path number: 15)
+7h: (seed number: 4, Path number: 15)
+8h: (seed number: 4, Path number: 15)
+9h: (seed number: 4, Path number: 15)
+
+======== xiaomi_plug-M-S ========
+is_crash: False
+0h: (seed number: 2, Path number: 13)
+1h: (seed number: 2, Path number: 13)
+2h: (seed number: 2, Path number: 13)
+3h: (seed number: 2, Path number: 13)
+4h: (seed number: 2, Path number: 14)
+5h: (seed number: 3, Path number: 18)
+6h: (seed number: 4, Path number: 20)
+7h: (seed number: 5, Path number: 24)
+8h: (seed number: 5, Path number: 24)
+9h: (seed number: 5, Path number: 24)
+
+======== xiaomi_plug ========
+is_crash: False
+0h: (seed number: 2, Path number: 13)
+1h: (seed number: 2, Path number: 15)
+2h: (seed number: 3, Path number: 18)
+3h: (seed number: 3, Path number: 19)
+4h: (seed number: 4, Path number: 21)
+5h: (seed number: 4, Path number: 22)
+6h: (seed number: 5, Path number: 24)
+7h: (seed number: 5, Path number: 26)
+8h: (seed number: 6, Path number: 28)
+9h: (seed number: 6, Path number: 30)
+

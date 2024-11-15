@@ -1,0 +1,31 @@
+======== yeelight ========
+is_crash: False
+0h: (seed number: 2, Path number: 11)
+1h: (seed number: 7, Path number: 52)
+2h: (seed number: 11, Path number: 104)
+3h: (seed number: 16, Path number: 162)
+4h: (seed number: 21, Path number: 205)
+5h: (seed number: 26, Path number: 292)
+6h: (seed number: 30, Path number: 364)
+7h: (seed number: 34, Path number: 454)
+8h: (seed number: 37, Path number: 520)
+9h: (seed number: 40, Path number: 578)
+
+======== yeelight-M-SN ========
+is_crash: True
+crash time: 0.8741594058275223
+0h: (seed number: 2, Path number: 11)
+
+======== yeelight-M-S ========
+is_crash: False
+0h: (seed number: 2, Path number: 11)
+1h: (seed number: 6, Path number: 116)
+2h: (seed number: 11, Path number: 223)
+3h: (seed number: 14, Path number: 337)
+4h: (seed number: 17, Path number: 428)
+5h: (seed number: 20, Path number: 508)
+6h: (seed number: 22, Path number: 556)
+7h: (seed number: 24, Path number: 557)
+8h: (seed number: 24, Path number: 557)
+9h: (seed number: 24, Path number: 557)
+

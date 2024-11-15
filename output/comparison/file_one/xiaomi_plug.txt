@@ -1,0 +1,21 @@
+'xiaomi_plug': {'seed-number': 2, 'path-number': 15, 'mutation-number': 0.0}
+'xiaomi_plug': {'seed-number': 2, 'path-number': 15, 'mutation-number': 0.0}
+'xiaomi_plug': {'seed-number': 3, 'path-number': 17, 'mutation-number': 3.0}
+'xiaomi_plug': {'seed-number': 4, 'path-number': 21, 'mutation-number': 27.0}
+'xiaomi_plug': {'seed-number': 4, 'path-number': 24, 'mutation-number': 27.0}
+'xiaomi_plug': {'seed-number': 5, 'path-number': 25, 'mutation-number': 19.333333333333332}
+'xiaomi_plug': {'seed-number': 6, 'path-number': 29, 'mutation-number': 31.25}
+'xiaomi_plug': {'seed-number': 6, 'path-number': 33, 'mutation-number': 31.25}
+'xiaomi_plug': {'seed-number': 7, 'path-number': 35, 'mutation-number': 31.4}
+'xiaomi_plug': {'seed-number': 9, 'path-number': 40, 'mutation-number': 26.333333333333332}
+
+'Snipuzz_xiaomi_plug': {'seed-number': 2, 'path-number': 15, 'mutation-number': 0.0}
+'Snipuzz_xiaomi_plug': {'seed-number': 2, 'path-number': 15, 'mutation-number': 0.0}
+'Snipuzz_xiaomi_plug': {'seed-number': 3, 'path-number': 17, 'mutation-number': 36.0}
+'Snipuzz_xiaomi_plug': {'seed-number': 3, 'path-number': 19, 'mutation-number': 36.0}
+'Snipuzz_xiaomi_plug': {'seed-number': 4, 'path-number': 20, 'mutation-number': 52.5}
+'Snipuzz_xiaomi_plug': {'seed-number': 5, 'path-number': 21, 'mutation-number': 43.666666666666664}
+'Snipuzz_xiaomi_plug': {'seed-number': 6, 'path-number': 24, 'mutation-number': 45.25}
+'Snipuzz_xiaomi_plug': {'seed-number': 6, 'path-number': 26, 'mutation-number': 45.25}
+'Snipuzz_xiaomi_plug': {'seed-number': 7, 'path-number': 27, 'mutation-number': 42.2}
+'Snipuzz_xiaomi_plug': {'seed-number': 7, 'path-number': 27, 'mutation-number': 42.2}

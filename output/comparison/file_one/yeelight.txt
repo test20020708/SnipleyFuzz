@@ -1,0 +1,15 @@
+'yeelight': {'seed-number': 2, 'path-number': 12, 'mutation-number': 0.0}
+'yeelight': {'seed-number': 9, 'path-number': 66, 'mutation-number': 32.285714285714285}
+'yeelight': {'seed-number': 15, 'path-number': 205, 'mutation-number': 22.25}
+'yeelight': {'seed-number': 19, 'path-number': 316, 'mutation-number': 16.875}
+'yeelight': {'seed-number': 24, 'path-number': 415, 'mutation-number': 13.714285714285714}
+'yeelight': {'seed-number': 28, 'path-number': 520, 'mutation-number': 11.52}
+'yeelight': {'seed-number': 31, 'path-number': 606, 'mutation-number': 10.89655172413793}
+
+'Snipuzz_yeelight': {'seed-number': 2, 'path-number': 12, 'mutation-number': 0.0}
+'Snipuzz_yeelight': {'seed-number': 5, 'path-number': 14, 'mutation-number': 352.0}
+'Snipuzz_yeelight': {'seed-number': 5, 'path-number': 14, 'mutation-number': 352.0}
+'Snipuzz_yeelight': {'seed-number': 5, 'path-number': 14, 'mutation-number': 352.0}
+'Snipuzz_yeelight': {'seed-number': 5, 'path-number': 14, 'mutation-number': 352.0}
+'Snipuzz_yeelight': {'seed-number': 5, 'path-number': 14, 'mutation-number': 352.0}
+'Snipuzz_yeelight': {'seed-number': 5, 'path-number': 14, 'mutation-number': 352.0}

@@ -1,0 +1,42 @@
+======== yeelight ========
+is_crash: False
+0h: (seed number: 2, Path number: 11, Mutation Times: 0.0)
+1h: (seed number: 7, Path number: 122, Mutation Times: 5.4)
+2h: (seed number: 11, Path number: 180, Mutation Times: 6.888888888888889)
+3h: (seed number: 13, Path number: 214, Mutation Times: 6.2)
+4h: (seed number: 17, Path number: 298, Mutation Times: 5.066666666666666)
+5h: (seed number: 19, Path number: 348, Mutation Times: 4.75)
+6h: (seed number: 21, Path number: 397, Mutation Times: 4.222222222222222)
+7h: (seed number: 24, Path number: 452, Mutation Times: 5.0476190476190474)
+8h: (seed number: 27, Path number: 536, Mutation Times: 4.416666666666667)
+9h: (seed number: 30, Path number: 601, Mutation Times: 3.925925925925926)
+10h: (seed number: 33, Path number: 657, Mutation Times: 3.533333333333333)
+
+======== yeelight-M-SN ========
+is_crash: False
+0h: (seed number: 2, Path number: 11, Mutation Times: 0.0)
+1h: (seed number: 8, Path number: 141, Mutation Times: 28.5)
+2h: (seed number: 14, Path number: 248, Mutation Times: 22.166666666666668)
+3h: (seed number: 18, Path number: 353, Mutation Times: 20.0)
+4h: (seed number: 21, Path number: 464, Mutation Times: 18.0)
+5h: (seed number: 23, Path number: 540, Mutation Times: 17.19047619047619)
+6h: (seed number: 27, Path number: 609, Mutation Times: 15.64)
+7h: (seed number: 29, Path number: 670, Mutation Times: 15.518518518518519)
+8h: (seed number: 30, Path number: 734, Mutation Times: 15.321428571428571)
+9h: (seed number: 32, Path number: 807, Mutation Times: 14.4)
+10h: (seed number: 34, Path number: 866, Mutation Times: 14.03125)
+
+======== yeelight-M-S ========
+is_crash: False
+0h: (seed number: 2, Path number: 11, Mutation Times: 0.0)
+1h: (seed number: 7, Path number: 121, Mutation Times: 126.6)
+2h: (seed number: 13, Path number: 244, Mutation Times: 70.8)
+3h: (seed number: 17, Path number: 360, Mutation Times: 50.57142857142857)
+4h: (seed number: 21, Path number: 453, Mutation Times: 39.333333333333336)
+5h: (seed number: 25, Path number: 536, Mutation Times: 37.63636363636363)
+6h: (seed number: 28, Path number: 605, Mutation Times: 37.84615384615385)
+7h: (seed number: 31, Path number: 691, Mutation Times: 38.07142857142857)
+8h: (seed number: 34, Path number: 761, Mutation Times: 34.38709677419355)
+9h: (seed number: 38, Path number: 829, Mutation Times: 30.457142857142856)
+10h: (seed number: 40, Path number: 907, Mutation Times: 28.81081081081081)
+

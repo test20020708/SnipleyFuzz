@@ -1,0 +1,8 @@
+Message Index-0
+did:1076783154
+
+uri:/miotspec/prop/set
+
+content:Ýparams": [{"did": "1076783154", "piid": 1, "siid": 6, "value": 30}]}
+
+

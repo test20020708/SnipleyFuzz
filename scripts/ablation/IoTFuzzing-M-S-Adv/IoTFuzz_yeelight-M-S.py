@@ -1,0 +1,936 @@
+import os
+import sys
+import time
+import random
+import time
+import string
+import threading
+
+import numpy as np
+from scipy.stats import binom
+
+import pandas as pd
+from scipy.cluster import hierarchy
+from colorama import init, Fore
+
+sys.path.append(r'..')
+sys.path.append('./device/yeelight')
+sys.path.append('./Fuzzing/IoT-Fuzzing')
+
+from interact_yeelight import Messenger, SimilarityScore
+from seed import Message, Seed
+
+# Global var
+queue = []
+restoreSeed = '' # restoring message sequence
+outputfold = ''
+history_combination = [] # mutation index and type
+crash_number = 0
+number_array = []
+round = 0
+path_score = []
+
+def info():
+    global queue, crash_number, number_array, path_score
+    while(1):
+        seed_number = len(queue)
+        number_sum = 0
+        for number in number_array:
+            number_sum += number
+        if len(number_array) != 0:
+            average = number_sum / len(number_array)
+        else:
+            average = 0 
+        with open(os.path.join('./scripts/ablation/share', 'yeelight-M-S.txt'), 'w') as f:
+            f.writelines("seed-number: " + str(seed_number) + "\n")
+            f.writelines("path-number: " + str(len(path_score)) + "\n")
+            f.writelines("crash-number: " + str(crash_number) + "\n")
+            f.writelines("mutation-number: " + str(average) + "\n")
+        time.sleep(5)
+
+# has been tested: Success!
+# read the input file and store it as a seed
+def readInputFile(file):
+    s = Seed()
+    lines = []
+    with open(file, 'r') as f:
+        lines = f.read().split("\n")
+    for i in range(0, len(lines)):
+        # Separators for different messages ========
+        if "========" in lines[i]: 
+            mes = Message()
+            for j in range(i + 1, len(lines)):
+                if "========" in lines[j]:
+                    i = j
+                    break
+                if ":" in lines[j]:
+                    mes.append(lines[j])
+            s.append(mes)
+    return s
+
+
+# has been tested: Success!
+# read the input fold and store them as seeds
+def readInputFold(fold):
+    seeds = []
+    files = os.listdir(fold)
+    for file in files:
+        print("Loading file: ", os.path.join(fold, file))
+        seeds.append(readInputFile(os.path.join(fold, file)))
+    return seeds
+
+
+# has been tested: Success!
+# Write the probe result that has been run into the output
+def writeRecord(queue, fold):
+    with open(os.path.join(fold, 'yeelight_ProbeRecord.txt'), 'w') as f:
+        for i in range(len(queue)):
+            f.writelines("========Seed " + str(i) + "========\n")
+            for j in range(len(queue[i].M)):
+                
+                f.writelines("Message Index-" + str(j) + "\n")  # write the message information
+                for header in queue[i].M[j].headers:
+                    f.writelines(header + ":" + queue[i].M[j].raw[header] + '\n')
+                f.writelines("\n")
+                
+                f.writelines('Original Response' + "\n")  # write the original response
+                f.writelines(queue[i].R[j])
+                
+                f.writelines('Probe Result:' + "\n")  # write the results of probe
+                f.writelines('PI' + "\n")  # PI
+                for n in queue[i].PI[j]:
+                    f.write(str(n) + " ")
+                f.writelines("\n")
+                f.writelines('PR and PS' + "\n")
+                for n in range(len(queue[i].PR[j])):
+                    f.writelines("(" + str(n) + ") " + queue[i].PR[j][n])
+                    f.writelines(str(queue[i].PS[j][n]) + "\n")
+            f.writelines("\n")
+            f.writelines("\n")
+    return 0
+
+
+# has been tested: Success!
+# Read the probe results from the record, thus skip the probe process and directly start the mutation test.
+def readRecordFile(file):
+    queue = []
+    with open(os.path.join(file), 'r') as f:
+        lines = f.readlines()
+        i = 0
+        while i < len(lines):
+            if lines[i].startswith("========Seed"):
+                seedStart = i + 1
+                seedEnd = len(lines)
+                for j in range(i + 1, len(lines)):
+                    if lines[j].startswith("========Seed"):
+                        seedEnd = j
+                        break
+                seed = Seed()
+                index = seedStart
+                
+                while index < seedEnd:
+                    
+                    if lines[index].startswith('Message Index'):
+                        message = Message()
+                        responseStart = seedEnd
+                        for j in range(index, seedEnd):
+                            if lines[j].startswith('Original Response'):
+                                responseStart = j
+                                break
+                        for line in lines[index + 1:responseStart - 1]:
+                            message.append(line)
+                        seed.M.append(message)
+                        index = responseStart
+                        
+                    if lines[index].startswith('Original Response'):
+                        index = index + 1
+                        seed.R.append(lines[index])
+                        
+                    if lines[index].startswith('PI'):
+                        index = index + 1
+                        PIstr = lines[index]
+                        PI = []
+                        for n in PIstr.strip().split(' '):
+                            PI.append(int(n))
+                        seed.PI.append(PI)
+                        
+                    if lines[index].startswith('PR and PS'):
+                        index = index + 1
+                        ends = seedEnd
+                        PR = []
+                        PS = []
+                        for j in range(index, seedEnd):
+                            if lines[j].startswith('Message Index'):
+                                ends = j
+                                break
+                        for j in range(index, ends):
+                            if lines[j].startswith("("):
+                                PR.append(lines[j][3:])
+                            elif lines[j][0].isdigit():
+                                PS.append(float(lines[j].strip()))
+                        seed.PR.append(PR)
+                        seed.PS.append(PS)
+                        
+                    index = index + 1
+                    
+                i = index
+                queue.append(seed)
+                
+    return queue
+
+
+# has been tested: Success!
+# Try to use the input given for a complete communication.
+# The func is used to test whether the input meets the requirements or whether there are other problems
+def dryRun(queue):
+    print(f"{Fore.BLUE}Start to exec dryRun Process!{Fore.RESET}")
+    global restoreSeed
+    m = Messenger(restoreSeed)
+    for i in range(0, len(queue)):
+        seed = m.DryRunSend(queue[i])
+        queue[i] = seed
+    return False
+
+
+def update_path_score(seed):
+    global path_score
+    for i in range(len(seed.M)):
+        responsePool = seed.PR[i]
+        scorePool = seed.PS[i]
+        for k in range(len(responsePool)):
+            path_and_score = {}
+            response = responsePool[k]
+            if path_score:
+                flag = True
+                for j in range(len(path_score)):
+                    target = path_score[j]["response"]
+                    target_score = path_score[j]["score"]
+                    c = SimilarityScore(target.strip(), response.strip())
+                    if c >= target_score:
+                        flag = False
+                        break
+                if flag:
+                    path_and_score["response"] = response
+                    path_and_score["score"] = scorePool[k]
+                    path_score.append(path_and_score)
+            else:
+                path_and_score["response"] = response
+                path_and_score["score"] = scorePool[k]
+                path_score.append(path_and_score)
+    
+
+# has been tested: Success!
+# Use heuristics to detect the meaning of each byte in the message (the first step)
+def Probe(Seed):
+    global restoreSeed, path_score
+    
+    m = Messenger(restoreSeed)
+    for index in range(len(Seed.M)):
+        
+        responsePool = []
+        similarityScore = []
+        probeResponseIndex = []
+        
+        # Calculation of self-similarity scores
+        response1 = m.ProbeSend(Seed, index)  # send the probe message   
+        time.sleep(1)
+        response2 = m.ProbeSend(Seed, index)  # send the probe message twice
+        
+        print("========" + "Message" + str(index) + "========")
+        print("Message" + str(index) + ":(first)" + response1)
+        print("Message" + str(index) + ":(second)" + response2)
+        print("========" + "Message" + str(index) + "========")
+        
+        responsePool.append(response1)
+        Res_score = SimilarityScore(response1.strip(), response2.strip())
+        similarityScore.append(Res_score)
+
+        if path_score:
+            global_flag = True
+            for i in range(0, len(path_score)):
+                global_target = path_score[i]["response"]
+                global_score = path_score[i]["score"]
+                global_c = SimilarityScore(global_target.strip(), response1.strip())
+                if global_c >= global_score:
+                    global_flag = False
+                    break
+            if global_flag:
+                path_and_score = {}
+                path_and_score["response"] = response1
+                path_and_score["score"] = Res_score
+                path_score.append(path_and_score)
+        else:
+            path_and_score = {}
+            path_and_score["response"] = response1
+            path_and_score["score"] = Res_score
+            path_score.append(path_and_score)
+                    
+        # probe process
+        for i in range(0, len(Seed.M[index].raw["Content"])):
+           temp = Seed.M[index].raw["Content"]
+           Seed.M[index].raw["Content"] = Seed.M[index].raw["Content"].strip()[:i] + Seed.M[index].raw["Content"].strip()[i + 1:]  # delete ith byte
+           
+           # Calculation of self-similarity scores
+           response1 = m.ProbeSend(Seed, index)  # send the probe message  
+           time.sleep(1)
+           response2 = m.ProbeSend(Seed, index)  # send the probe message twice
+           print(Seed.M[index].raw["Content"])
+           print("Mutation" + str(i) + ":(first)" + response1)
+           print("Mutation" + str(i) + ":(second)" + response2)
+           
+           if path_score:
+               global_flag = True
+               for k in range(0, len(path_score)):
+                   global_target = path_score[k]["response"]
+                   global_score = path_score[k]["score"]
+                   global_c = SimilarityScore(global_target.strip(), response1.strip())
+                   if global_c >= global_score:
+                       global_flag = False
+                       break
+               if global_flag:
+                   path_and_score = {}
+                   path_and_score["response"] = response1
+                   path_and_score["score"] = SimilarityScore(response1.strip(), response2.strip())
+                   path_score.append(path_and_score)
+                   
+           if responsePool:
+               flag = True
+               for j in range(0, len(responsePool)):
+                   target = responsePool[j]
+                   score = similarityScore[j]
+                   c = SimilarityScore(target.strip(), response1.strip())
+                   if c >= score:
+                       flag = False
+                       probeResponseIndex.append(j)
+                       print("Mutation" + str(i) + " is similar")
+                       sys.stdout.flush()
+                       break
+               if flag:
+                    responsePool.append(response1)
+                    similarityScore.append(SimilarityScore(response1.strip(), response2.strip()))
+                    print("Mutation" + str(i) + " is unique" + "\n")
+                    probeResponseIndex.append(j + 1)
+            
+           Seed.M[index].raw["Content"] = temp  # restore the message
+
+        Seed.PR.append(responsePool)
+        Seed.PS.append(similarityScore)
+        Seed.PI.append(probeResponseIndex)
+
+    return Seed
+
+
+# has been tested: Success!
+# extract features from responses
+def getFeature(response, score):
+    feature = {}
+    feature['a'] = 0  # Letter count in response
+    feature['n'] = 0  # Digit count in response
+    feature['s'] = 0  # Special character count in response
+    length = len(response)
+    score = score
+
+    cur = ''
+    pre = ''
+    for i in range(len(response)):
+        if response[i].isdigit():
+            cur = 'n'
+        elif response[i].isalpha():
+            cur = 'a'
+        else:
+            cur = 's'
+
+        if pre == '':
+            pre = cur
+        elif pre != cur:
+            feature[pre] = feature[pre] + 1
+        pre = cur
+
+    feature[cur] = feature[cur] + 1
+
+    return [feature['a'], feature['n'], feature['s'], length, score]
+
+
+# has been tested
+# change the probe index
+# form snippet from messages
+def formSnippets(pi, cluster, index):
+    snippet = []
+    for i in range(index):
+        c1 = int(cluster[i][0])
+        c2 = int(cluster[i][1])
+        p = int(cluster[i][3])
+        for j in range(len(pi)):
+            if pi[j] == c1 or pi[j] == c2:
+                pi[j] = len(cluster) + 1 + i
+
+    i = 0
+    while i < len(pi)-1:
+        j = i
+        skip = True
+        while j <= len(pi) and skip:
+            j = j + 1
+            if pi[j] != pi[i]:
+                snippet.append([i, j - 1])
+                skip = False
+            if j == len(pi)-1:
+                snippet.append([i, j])
+                skip = False
+        i = j
+
+    return snippet
+
+
+# has been tested: Success!
+# put the interesting messages into the seed queue
+def interesting(oldSeed,index):
+    global queue
+    global restoreSeed
+    m = Messenger(restoreSeed)
+    
+    print(oldSeed.M[index].raw["Content"])
+
+    seed = Seed()
+    for i in range(len(oldSeed.M)):
+        message = Message()
+        seed.M.append(message)
+    seed.M[index].headers = oldSeed.M[index].headers
+    for i in seed.M[index].headers:
+        seed.M[index].raw[i] = oldSeed.M[index].raw[i]
+    seed = m.DryRunSend(seed)
+    seed = Probe(seed)
+    queue.append(seed)
+    
+
+def writeOutput(seed):
+    global outputfold
+    localtime = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time.time()))
+    file = 'yeelight-M-S-Crash-' + str(crash_number) + ":" + localtime + '.txt'
+
+    with open(os.path.join(outputfold, file), 'w') as f:
+        for i in range(len(seed.M)):
+            f.writelines("Message Index-" + str(i) + "\n")  # write the message information
+            for header in seed.M[i].headers:
+                f.writelines(header + ":" + seed.M[i].raw[header] + '\n')
+            f.writelines("\n")
+    print("Found a crash @ " + localtime)
+    sys.exit()
+    
+
+# has been tested: Success!
+def responseHandle(seed, info):
+    global crash_number
+    if info.startswith("#interesting"):
+        print("~~Get Interesting in :")
+        interesting(seed, int(info.split('-')[1]))
+        return False
+    if info.startswith("#error"):
+        print("~~Something wrong with the target infomation (e.g. IP addresss or port)")
+    if info.startswith("#crash"):
+        crash_number += 1
+        print(f"Crash!!!!  number({str(crash_number)})")
+        writeOutput(seed)
+    return True
+
+
+# has been tested: Success!
+def SnippetMutate(seed, restoreSeed):
+    
+    m = Messenger(restoreSeed)
+    
+    for i in range(len(seed.M)):
+        pool = seed.PR[i]
+        poolIndex = seed.PI[i]
+        similarityScores = seed.PS[i]
+        poolIndex_tmp = []
+        for ii in poolIndex:
+            poolIndex_tmp.append(ii)
+    
+        # update the number of times the message was used and the interval
+        seed.M[i].number_used_message += 1
+        seed.M[i].interval_message = 0
+        for j in range(len(seed.M)):
+            if j != i:
+                seed.M[j].interval_message += 1
+                
+        print(f"{Fore.BLUE}Start to exec SnippetMutate process for Message{i}! {i+1}/{len(seed.M)}{Fore.RESET}")
+        
+        featureList = []
+        for j in range(len(pool)):
+            featureList.append(getFeature(pool[j].strip(), similarityScores[j]))
+            
+        df = pd.DataFrame(featureList)
+        cluster = hierarchy.linkage(df, method='average', metric='euclidean')
+        
+        seed.ClusterList.append(cluster)
+        
+        mutatedSnippet = []
+        for index in range(len(cluster)):
+            snippetsList = formSnippets(poolIndex, cluster, index)
+            snippet_all_info_array = {}
+            snippet_info_array = []
+            print(f"{Fore.BLUE}Start to exec SnippetMutate process for snippet in cluster round{index}! {index + 1}/{len(cluster)}{Fore.RESET}")
+            
+            # Initialize the snippet property for message
+            for snippet in snippetsList:
+                if "Fail to bind device" in pool[poolIndex_tmp[snippet[0]]]:
+                    continue
+                snippet_info = {}
+                snippet_info["fragment"] = snippet
+                snippet_info["number"] = 0
+                snippet_info["shapley"] = 0
+                snippet_info_array.append(snippet_info)
+            snippet_all_info_array["snippets"] = snippet_info_array
+            snippet_all_info_array["number"] = 0
+            snippet_all_info_array["interested"] = 0
+            seed.M[i].snippet.append(snippet_all_info_array)
+            
+            for snippet_index in range(len(seed.M[i].snippet[index]["snippets"])):
+                snippet = seed.M[i].snippet[index]["snippets"][snippet_index]
+                fragment = snippet["fragment"]
+                seed.M[i].snippet[index]["snippets"][snippet_index]["number"] += 1
+        
+                if fragment not in mutatedSnippet:
+                    mutatedSnippet.append(fragment)
+                    
+        seed.Snippet.append(mutatedSnippet)
+    return 0
+
+
+def advanced_mutate(queue, restoreSeed):
+    
+    m = Messenger(restoreSeed)
+    
+    global history_combination, path_score
+
+    # choose a seed totally random
+    seed_index_array = []
+    for i in range(len(queue)):
+        seed_index_array.append(i)
+    seed_index = random.choice(seed_index_array)
+    seed = queue[seed_index]
+   
+    # choose a message totally random        
+    message_index_array = []
+    for i in range(len(seed.M)):
+        message_index_array.append(i)
+    message_index = random.choice(message_index_array)
+    message = seed.M[message_index]
+    
+    # choose a cluster totally random     
+    cluster_index_array = []
+    for i in range(len(message.snippet)):
+        cluster_index_array.append(i)
+    cluster_round = random.choice(cluster_index_array)
+    snippets = message.snippet[cluster_round]["snippets"]
+    
+    # randomly selecting the number of mutation segments
+    number_mutation_segment = random.randint(1, len(snippets))
+    
+    ###
+    # Priority should be used for snippet selection
+    # Factors related to priority include: (1) Shapley value
+    #                                      (2) Numbers of times snippet has been used
+    # The use of CMAB is a trade-off between two elements
+    ###
+    ratio_shapley = 0.95
+    ratio_number_snippet = 1 - ratio_shapley
+    
+    shapley_snippet = []
+    number_snippet = []
+    priority_snippet = []
+    probability_snippet = []
+    snippet_index_array = []
+    for i in range(len(snippets)):
+        snippet_index_array.append(i)
+    
+    # process the shapley value of a snippet
+    for i in range(len(snippets)):
+        shapley_snippet.append(snippets[i]["shapley"])
+    max_shapley = max(shapley_snippet)
+    min_shapley = min(shapley_snippet)
+    if max_shapley == min_shapley:
+        for i in range(len(shapley_snippet)):
+            shapley_snippet[i] = 1
+    else:
+        shapley_increase = 1 / (max_shapley - min_shapley)
+        for i in range(len(shapley_snippet)):
+            shapley_snippet[i] = shapley_increase * (shapley_snippet[i] - min_shapley)
+    
+    # process the number of times snippet has been used
+    for i in range(len(snippets)):
+        number_snippet.append(snippets[i]["number"])
+    max_number_snippet = max(number_snippet)
+    min_number_snippet = min(number_snippet)
+    if max_number_snippet == min_number_snippet:
+        for i in range(len(number_snippet)):
+            number_snippet[i] = 1
+    else:
+        number_increase_snippet = 1 / (max_number_snippet - min_number_snippet)
+        for i in range(len(number_snippet)):
+            number_snippet[i] = 1 - number_increase_snippet * (number_snippet[i] - min_number_snippet) 
+        
+    # calculate the priority of snippet
+    all_priority_snippet = 0
+    for i in range(len(snippets)):
+        priority_snippet_single = ratio_shapley * shapley_snippet[i] + ratio_number_snippet * number_snippet[i]
+        priority_snippet.append(priority_snippet_single)
+        all_priority_snippet += priority_snippet_single
+        
+    # calculate the probability of message
+    for i in range(len(snippets)):
+        probability_snippet.append(priority_snippet[i] / all_priority_snippet)
+    
+    Regeneration = True
+
+    while Regeneration == True:
+        # Select the fragments that need to be mutated according to the weight
+        mutation_index_array = []
+        mutation_number = 0   
+        while (1) :
+            mutation_index = int(random.choices(snippet_index_array, weights = probability_snippet, k = 1)[0])
+            while mutation_index in mutation_index_array:
+                mutation_index = int(random.choices(snippet_index_array, weights = probability_snippet, k = 1)[0])
+            mutation_index_array.append(mutation_index)
+            mutation_number += 1
+            if mutation_number == number_mutation_segment:
+                break
+        mutation_index_array = sorted(mutation_index_array)        
+        
+        # Random selection of mutation types
+        mutation_types = []
+        for _ in range(number_mutation_segment):
+            mutation_types.append(random.randint(0, 6))
+                
+        history_combination_information = {}
+        history_combination_information["mutation_index"] = mutation_index_array
+        history_combination_information["mutation_type"] = mutation_types
+        
+        if history_combination_information in history_combination:
+            Regeneration = True
+        else:
+            Regeneration = False
+
+
+    # update the number information of snippet
+    for mutation_index in mutation_index_array:
+        queue[seed_index].M[message_index].snippet[cluster_round]["snippets"][mutation_index]["number"] += 1
+    
+    # performing the corresponding mutation process
+    tempMessage = queue[seed_index].M[message_index].raw["Content"]
+    length_message = len(tempMessage)
+    for i in range(number_mutation_segment):
+        queue[seed_index] = mutation_generation(queue[seed_index], message_index, snippets[mutation_index_array[i]]["fragment"], mutation_types[i], length_message)
+    
+    flag = True
+    
+    if responseHandle(queue[seed_index], m.SnippetMutationSend(queue[seed_index], message_index, path_score)) == False:
+        
+        # update the history combination
+        history_combination_information = {}
+        history_combination_information["mutation_index"] = mutation_index_array
+        history_combination_information["mutation_type"] = mutation_types
+        history_combination.append(history_combination_information)
+        flag = False
+        
+        response = m.sendMessage(queue[seed_index].M[message_index])
+        
+        queue[seed_index].M[message_index].raw["Content"] = tempMessage
+        ### 
+        # update the interested situation: (1)seed (2)message (3)snippet 
+        ###
+        
+        # update the interested situation of seed
+        queue[seed_index].number_interested += 1000
+        # update the interested situation of message
+        queue[seed_index].M[message_index].number_interested_message += 1000
+        # update the interested situation of cluster
+        queue[seed_index].M[message_index].snippet[cluster_round]["interested"] += 1000
+        # update the shapley value of snippet
+        print(f"{Fore.BLUE}Start to update the shapley value!{Fore.RESET}")
+        update_shapley_snippet(queue[seed_index], message_index, snippets, mutation_index_array, mutation_types, response, cluster_round, restoreSeed)
+    
+    queue[seed_index].M[message_index].raw["Content"] = tempMessage
+    print(f"{Fore.BLUE}There is no interseted in this advance mutation process!{Fore.RESET}")
+        
+    return flag
+
+
+# has been tested: Success!
+# Here we need a recursive function
+def update_shapley_snippet(seed, message_index, snippets, mutation_index_array, mutation_types, response, cluster_round, restoreSeed):
+    m = Messenger(restoreSeed)
+    global history_combination, number_array, path_score
+    print(f"{Fore.BLUE}UPDATE! Length:{len(mutation_index_array)}{Fore.RESET}")
+    if len(mutation_index_array) == 1:
+        seed.M[message_index].snippet[cluster_round]["snippets"][mutation_index_array[0]]["shapley"] += 1000
+        return ""
+
+    # process a snippet at a time
+    for i in range(len(mutation_index_array)):
+        # generate a list except the target snippet
+        update_mutation_array_index = []
+        update_mutation_types = []
+        for j in range(len(mutation_index_array)):
+            if j != i:
+                update_mutation_array_index.append(mutation_index_array[j])
+                update_mutation_types.append(mutation_types[j])
+        # generate a mutated message according to update_mutation_array_index
+        tempMessage = seed.M[message_index].raw["Content"]
+        length_message = len(tempMessage)
+        for k in range(len(update_mutation_array_index)):
+            seed = mutation_generation(seed, message_index, snippets[update_mutation_array_index[k]]["fragment"], update_mutation_types[k], length_message)
+        # recovery
+        response_update = m.sendMessage(seed.M[message_index])
+        # Using function recursion to update shapley values
+        if responseHandle(seed, m.SnippetMutationSend(seed, message_index, path_score)) == True:
+            seed.M[message_index].raw["Content"] = tempMessage
+            seed.M[message_index].snippet[cluster_round]["snippets"][mutation_index_array[i]]["shapley"] += 1000
+        elif response_update == response:
+            number_array.append(0)
+            seed.M[message_index].raw["Content"] = tempMessage
+            history_combination_information = {}
+            history_combination_information["mutation_index"] = update_mutation_array_index
+            history_combination_information["mutation_type"] = update_mutation_types
+            history_combination.append(history_combination_information)
+            update_shapley_snippet(seed, message_index, snippets, update_mutation_array_index, update_mutation_types, response_update, cluster_round, restoreSeed)
+        else:
+            number_array.append(0)
+            seed.M[message_index].raw["Content"] = tempMessage
+            seed.M[message_index].snippet[cluster_round]["snippets"][mutation_index_array[i]]["shapley"] += 1000
+            seed.number_interested += 1000
+            seed.M[message_index].number_interested_message += 1000
+            seed.M[message_index].snippet[cluster_round]["interested"] += 1000
+            history_combination_information = {}
+            history_combination_information["mutation_index"] = update_mutation_array_index
+            history_combination_information["mutation_type"] = update_mutation_types
+            history_combination.append(history_combination_information)
+            update_shapley_snippet(seed, message_index, snippets, update_mutation_array_index, update_mutation_types, response_update, cluster_round, restoreSeed)
+        
+    return ""
+
+
+# has been tested: Success!               
+def mutation_generation(seed, message_index, snippet, pick, length):
+    print("*mutation generation")
+    message = seed.M[message_index].raw["Content"]
+    value = len(message) - length
+    snippet[0] = snippet[0] + value
+    snippet[1] = snippet[1] + value
+    
+    
+    if pick == 0:
+        # ========  BitFlip  ========
+        asc = ""
+        for o in range(min(snippet[0],len(message) - 1), min(snippet[1] + 1, len(message) - 1)):
+            asc = asc + (chr(255 - ord(message[o])))
+        message = message[:snippet[0]] + asc + message[snippet[1] + 1:]
+        seed.M[message_index].raw["Content"] = message
+        snippet[0] = snippet[0] - value
+        snippet[1] = snippet[1] - value
+        return seed
+    
+    elif pick == 1:
+        # ========  Empty ==========
+        message = message[:snippet[0]] + message[snippet[1] + 1:]
+        seed.M[message_index].raw["Content"] = message
+        snippet[0] = snippet[0] - value
+        snippet[1] = snippet[1] - value
+        return seed
+        
+    elif pick == 2:
+        # ========  Repeat ========
+        t = random.randint(2, 5)
+        message = message[:snippet[0]] + message[snippet[0]:snippet[1] + 1] * t + message[snippet[1] + 1:]
+        seed.M[message_index].raw["Content"] = message
+        snippet[0] = snippet[0] - value
+        snippet[1] = snippet[1] - value
+        return seed
+        
+    elif pick == 3:
+        # ======== Random Bytes Flip ===========
+        index_array = []
+        for index in range(snippet[0], snippet[1] + 1):
+            index_array.append(index)
+        mutation_number = random.randint(1, snippet[1] - snippet[0] + 1)
+        mutation_array = random.sample(index_array, mutation_number)
+        asc = ""
+        for o in range(min(snippet[0],len(message) - 1), min(snippet[1] + 1, len(message) - 1)):
+            if o in mutation_array:
+                asc = asc + (chr(255 - ord(message[o])))
+            else:
+                asc = asc + message[o]
+        message = message[:snippet[0]] + asc + message[snippet[1] + 1:]
+        seed.M[message_index].raw["Content"] = message
+        snippet[0] = snippet[0] - value
+        snippet[1] = snippet[1] - value
+        return seed
+    
+    elif pick == 4:
+        # ========  Random Bytes delete ========
+        index_array = []
+        message_front = message[:snippet[0]]
+        message_behind = message[snippet[1] + 1:]
+        for index in range(snippet[0], snippet[1] + 1):
+            index_array.append(index)
+        mutation_number = random.randint(1, snippet[1] - snippet[0] + 1)
+        mutation_array = random.sample(index_array, mutation_number)
+        asc = ""
+        for o in range(min(snippet[0],len(message) - 1), min(snippet[1] + 1, len(message) - 1)):
+            if o in mutation_array:
+                continue
+            else:
+                asc = asc + message[o]
+        message = message_front + asc + message_behind
+        seed.M[message_index].raw["Content"] = message
+        snippet[0] = snippet[0] - value
+        snippet[1] = snippet[1] - value
+        return seed
+    
+    elif pick == 5:
+        # ========  Random Bytes increase(Type one) ========
+        index_array = []
+        message_front = message[:snippet[0]]
+        message_behind = message[snippet[1] + 1:]
+        for index in range(snippet[0], snippet[1] + 1):
+            index_array.append(index)
+        mutation_number = random.randint(1, snippet[1] - snippet[0] + 1)
+        mutation_array = random.sample(index_array, mutation_number)
+        asc = ""
+        mutation_type = random.randint(0, 2)
+        if mutation_type == 0:
+            for o in range(min(snippet[0],len(message) - 1), min(snippet[1] + 1, len(message) - 1)):
+                if o in mutation_array:
+                    asc = asc + message[o] + str(random.randint(0, 9))
+                else:
+                    asc = asc + message[o]
+        elif mutation_type == 1:
+            for o in range(min(snippet[0],len(message) - 1), min(snippet[1] + 1, len(message) - 1)):
+                if o in mutation_array:
+                    asc = asc + message[o] + random.choice(string.ascii_letters)
+                else:
+                    asc = asc + message[o]
+        else:
+            for o in range(min(snippet[0],len(message) - 1), min(snippet[1] + 1, len(message) - 1)):
+                if o in mutation_array:
+                    asc = asc + message[o] + random.choice(string.punctuation)
+                else:
+                    asc = asc + message[o]
+        message = message_front + asc + message_behind
+        seed.M[message_index].raw["Content"] = message
+        snippet[0] = snippet[0] - value
+        snippet[1] = snippet[1] - value
+        return seed
+    
+    elif pick == 6:
+        # ========  Random Bytes increase(Type one) ========
+        index_array = []
+        message_front = message[:snippet[0]]
+        message_behind = message[snippet[1] + 1:]
+        for index in range(snippet[0], snippet[1] + 1):
+            index_array.append(index)
+        mutation_number = random.randint(1, snippet[1] - snippet[0] + 1)
+        mutation_array = random.sample(index_array, mutation_number)
+        mutation_types = []
+        for _ in range(mutation_number):
+            mutation_types.append(random.randint(0,2))
+        asc = ""
+        for o in range(min(snippet[0],len(message) - 1), min(snippet[1] + 1, len(message) - 1)):
+            if o in mutation_array:
+                asc = asc + message[0]
+                index_char = mutation_array.index(o)
+                if mutation_types[index_char] == 0:
+                    asc = asc + str(random.randint(0, 9))
+                elif mutation_types[index_char] == 1:
+                    asc = asc + random.choice(string.ascii_letters)
+                else:
+                    asc = asc + random.choice(string.punctuation)
+            else:
+                asc = asc + message[o]
+        message = message_front + asc + message_behind
+        seed.M[message_index].raw["Content"] = message
+        snippet[0] = snippet[0] - value
+        snippet[1] = snippet[1] - value
+        return seed
+        
+    return seed
+
+
+def main():
+    global queue, restoreSeed, outputfold, number_array, round
+    
+    init()
+
+    restorefile = './device/yeelight/yeelight_file/restoreSeed.txt'
+    outputfold = './output/crash/yeelight'
+    recordfile = './device/yeelight/yeelight_file/yeelight_ProbeRecord.txt'
+    inputfold = './device/yeelight/yeelight_file/initial_seed'
+    probe_fold = './device/yeelight/yeelight_file'
+    
+    restoreSeed = readInputFile(restorefile)
+    print(f"{Fore.BLUE}Successful read from the restorefile!{Fore.RESET}")
+    
+    queue = readInputFold(inputfold)
+    
+    if recordfile and os.path.exists(recordfile):
+        print(f"{Fore.BLUE}ProbeRecord file exists and Probe process has been ignored!{Fore.RESET}")
+        queue = readRecordFile(recordfile)
+        
+        for seed in queue:
+            update_path_score(seed)
+        
+        # update the information
+        thread = threading.Thread(target = info)
+        thread.start()
+
+        for seed in queue:
+            seed.display()
+
+        if (dryRun(queue)):  # Dry Run
+            print('#### Dry run failed, check the inputs or connection.')
+            sys.exit()
+    else:
+        print(f"{Fore.BLUE}Start to exec Probe process!{Fore.RESET}")
+        queue = readInputFold(inputfold)
+        
+        if (dryRun(queue)):  # Dry Run
+            print('#### Dry run failed, check the inputs or connection.')
+            sys.exit()
+        for i in range(len(queue)):
+            queue[i].display()
+            print(f"{Fore.BLUE}Start to exec Probe process for seed{i}! {i + 1}/{len(queue)}{Fore.RESET}")
+            queue[i] = Probe(queue[i])
+        
+        # update the information
+        thread = threading.Thread(target = info)
+        thread.start()
+        
+        writeRecord(queue, probe_fold)
+    
+    skip = False
+    number = 0
+    while (1):
+        if not skip:
+            i = 0
+            while i < len(queue):
+                if not queue[i].isMutated:
+                    queue[i].number_used += 1
+                    queue[i].interval = 0
+                    for j in range(len(queue)):
+                        if j != i:
+                            queue[j].interval += 1
+                    print(f"{Fore.BLUE}Start to exec SnippetMutate process for seed{i}! {i+1}/{len(queue)}{Fore.RESET}")
+                    SnippetMutate(queue[i], restoreSeed)
+                    queue[i].isMutated = True
+                i = i + 1
+        skip = True
+        number += 1
+        print(f"{Fore.BLUE}Start to exec advanced_mutate process! the {round}th round({number}) {Fore.RESET}")
+        skip = advanced_mutate(queue, restoreSeed)
+        if skip == False:
+            round += 1
+            number_array.append(number)
+            number = 0
+    
+if __name__ == '__main__':
+    main()

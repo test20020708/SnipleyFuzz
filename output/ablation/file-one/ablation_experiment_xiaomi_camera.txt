@@ -1,0 +1,55 @@
+======== xiaomi_camera-M-S ========
+is_crash: False
+0h: (seed number: 2, Path number: 10, Mutation Times: 0.0)
+1h: (seed number: 2, Path number: 10, Mutation Times: 0.0)
+2h: (seed number: 2, Path number: 10, Mutation Times: 0.0)
+3h: (seed number: 2, Path number: 10, Mutation Times: 0.0)
+4h: (seed number: 2, Path number: 10, Mutation Times: 0.0)
+5h: (seed number: 2, Path number: 10, Mutation Times: 0.0)
+6h: (seed number: 2, Path number: 10, Mutation Times: 0.0)
+7h: (seed number: 2, Path number: 11, Mutation Times: 0.0)
+8h: (seed number: 3, Path number: 11, Mutation Times: 1077.0)
+9h: (seed number: 3, Path number: 11, Mutation Times: 1077.0)
+10h: (seed number: 3, Path number: 11, Mutation Times: 1077.0)
+
+======== xiaomi_camera ========
+is_crash: False
+0h: (seed number: 2, Path number: 10, Mutation Times: 0.0)
+1h: (seed number: 3, Path number: 12, Mutation Times: 14.0)
+2h: (seed number: 3, Path number: 15, Mutation Times: 14.0)
+3h: (seed number: 4, Path number: 17, Mutation Times: 18.5)
+4h: (seed number: 5, Path number: 22, Mutation Times: 22.666666666666668)
+5h: (seed number: 6, Path number: 27, Mutation Times: 19.0)
+6h: (seed number: 7, Path number: 32, Mutation Times: 26.0)
+7h: (seed number: 8, Path number: 39, Mutation Times: 23.833333333333332)
+8h: (seed number: 9, Path number: 46, Mutation Times: 21.571428571428573)
+9h: (seed number: 10, Path number: 52, Mutation Times: 19.25)
+10h: (seed number: 12, Path number: 55, Mutation Times: 19.77777777777778)
+
+======== xiaomi_camera-M-SN ========
+is_crash: False
+0h: (seed number: 2, Path number: 10, Mutation Times: 0.0)
+1h: (seed number: 2, Path number: 11, Mutation Times: 0.0)
+2h: (seed number: 3, Path number: 12, Mutation Times: 39.0)
+3h: (seed number: 4, Path number: 13, Mutation Times: 34.5)
+4h: (seed number: 4, Path number: 13, Mutation Times: 34.5)
+5h: (seed number: 4, Path number: 15, Mutation Times: 34.5)
+6h: (seed number: 5, Path number: 17, Mutation Times: 102.33333333333333)
+7h: (seed number: 6, Path number: 20, Mutation Times: 82.0)
+8h: (seed number: 6, Path number: 28, Mutation Times: 82.0)
+9h: (seed number: 7, Path number: 30, Mutation Times: 85.0)
+10h: (seed number: 8, Path number: 34, Mutation Times: 82.16666666666667)
+
+
+'xiaomi_camera-M-S': {'seed-number': 2, 'path-number': 10, 'mutation-number': 0.0}
+'xiaomi_camera-M-S': {'seed-number': 2, 'path-number': 10, 'mutation-number': 0.0}
+'xiaomi_camera-M-S': {'seed-number': 2, 'path-number': 10, 'mutation-number': 0.0}
+'xiaomi_camera-M-S': {'seed-number': 3, 'path-number': 11, 'mutation-number': 420.0}
+'xiaomi_camera-M-S': {'seed-number': 3, 'path-number': 11, 'mutation-number': 420.0}
+'xiaomi_camera-M-S': {'seed-number': 3, 'path-number': 11, 'mutation-number': 420.0}
+'xiaomi_camera-M-S': {'seed-number': 3, 'path-number': 11, 'mutation-number': 420.0}
+'xiaomi_camera-M-S': {'seed-number': 3, 'path-number': 11, 'mutation-number': 420.0}
+'xiaomi_camera-M-S': {'seed-number': 4, 'path-number': 12, 'mutation-number': 582.0}
+'xiaomi_camera-M-S': {'seed-number': 4, 'path-number': 12, 'mutation-number': 582.0}
+'xiaomi_camera-M-S': {'seed-number': 4, 'path-number': 12, 'mutation-number': 582.0}
+

@@ -1,0 +1,8 @@
+{
+    "python.analysis.extraPaths": [
+        "./device/xiaomi",
+        "./Fuzzing/IoT-Fuzzing",
+        "./device/yeelight",
+        "./Fuzzing/Snipuzz-py"
+    ]
+}

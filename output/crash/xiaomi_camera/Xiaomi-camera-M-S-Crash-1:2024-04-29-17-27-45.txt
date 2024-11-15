@@ -1,0 +1,8 @@
+Message Index-0
+did:1076783154
+
+uri:/miotspec/prop/set
+
+content:{;"*par+a!m@s".: [/{"did": "1076783154"ÓßÝÝÅßÍÓßÝÝÅßÍÓßÝvalue"t:f O180
+
+

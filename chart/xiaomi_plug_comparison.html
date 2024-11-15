@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+
+  
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts/5.5.0/files/dist/echarts.min.js"></script>
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    
+    var option;
+
+    option = {
+  title: {
+    text: '米家智能插座固件代码覆盖率'
+  },
+  tooltip: {
+    trigger: 'axis'
+  },
+  legend: {
+    data: ['SnipFuzz', 'SnipleyFuzz']
+  },
+  grid: [
+    {
+    top: '10%',
+    left: '2%',
+    bottom: '65%',
+    right : '2%',
+    containLabel: true,
+    },
+    {
+    top: '41%',
+    left: '2%',
+    bottom: '34%',
+    right : '2%',
+    containLabel: true,
+    },
+    {
+    top: '72%',
+    left: '2%',
+    bottom: '3%',
+    right : '2%',
+    containLabel: true,
+    },
+    ],
+  toolbox: {
+    feature: {
+      saveAsImage: {}
+    }
+  },
+  xAxis: [
+    {
+    type: 'category',
+    boundaryGap: false,
+    gridIndex: 0,
+    data: ['0min', '10min', '20min', '30min', '40min', '50min', '60min', '70min', '80min', '90min']
+    },
+    {
+    type: 'category',
+    boundaryGap: false,
+    gridIndex: 1,
+    data: ['0min', '10min', '20min', '30min', '40min', '50min', '60min', '70min', '80min', '90min']
+    },
+    {
+    type: 'category',
+    boundaryGap: false,
+    gridIndex: 2,
+    data: ['0min', '10min', '20min', '30min', '40min', '50min', '60min', '70min', '80min', '90min']
+    },
+    ],
+  yAxis: [
+    {
+    type: 'value',
+    gridIndex: 0,
+    name: '种子池长度'
+    },
+    {
+    type: 'value',
+    gridIndex: 1,
+    name: '响应池长度'
+    },
+    {
+    type: 'value',
+    gridIndex: 2,
+    name: '平均变异轮数'
+    },
+    ],
+
+  series: [
+    {
+      name: 'SnipleyFuzz',
+      type: 'line',
+      label: { 
+        show: true,
+        position: 'top',
+        fontSize: 10
+      },
+      data: [2, 2, 3, 4, 4, 5, 6, 6, 7, 9]
+    },
+    {
+      name: 'SnipFuzz',
+      type: 'line',
+      label: { 
+        show: true,
+        position: 'top',
+        fontSize: 10
+      },
+      data: [2, 2, 3, 3, 4, 5, 6, 6, 7, 7]
+    },
+    {
+      name: 'SnipleyFuzz',
+      type: 'line',
+      label: { 
+        show: true,
+        position: 'top',
+        fontSize: 10
+      },
+      xAxisIndex: 1, 
+      yAxisIndex: 1,
+      data: [15, 15, 17, 21, 24, 25, 29, 33, 35, 40]
+    },
+    {
+      name: 'SnipFuzz',
+      type: 'line',
+      label: { 
+        show: true,
+        position: 'bottom',
+        fontSize: 10
+      },
+      xAxisIndex: 1, 
+      yAxisIndex: 1,
+      data: [15, 15, 17, 19, 20, 21, 24, 26, 27, 27]
+    },
+    {
+      name: 'SnipleyFuzz',
+      type: 'line',
+      label: { 
+        show: true,
+        position: 'top',
+        fontSize: 10
+      },
+      xAxisIndex: 2, 
+      yAxisIndex: 2,
+      data: [null, null, 3, 27, 27, 19, 31, 31, 30, 26]
+    },
+    {
+      name: 'SnipFuzz',
+      type: 'line',
+      markLine: {
+        data: [
+          {
+            xAxis: '20min'
+          }
+        ],
+        lineStyle: {
+          width: 1,
+          color: '#979797'
+        }
+      },
+      label: { 
+        show: true,
+        position: 'top',
+        fontSize: 10
+      },
+      xAxisIndex: 2, 
+      yAxisIndex: 2,
+      data: [null, null, 36, 36, 52, 43, 45, 45, 42, 42]
+    },
+  ],
+};
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>

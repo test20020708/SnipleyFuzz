@@ -1,0 +1,2 @@
+This version excludes seed priority selection and message priority selection from the original version.
+The purpose is to conduct an ablation experiment.

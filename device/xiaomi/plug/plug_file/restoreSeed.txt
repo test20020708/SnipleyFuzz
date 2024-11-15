@@ -1,0 +1,19 @@
+====================  0 ==========================
+
+did:732615647
+uri:/miotspec/prop/set
+content:{"params": [{"did": "732615647", "piid": 1, "siid": 2, "value": false}]}
+
+====================  1 ==========================
+
+did:732615647
+uri:/miotspec/prop/set
+content:{"params": [{"did": "732615647", "piid": 1, "siid": 2, "value": true}]}
+
+====================  2 ==========================
+
+did:732615647
+uri:/miotspec/prop/set
+content:{"params": [{"did": "732615647", "piid": 2, "siid": 2, "value": 0}]}
+
+

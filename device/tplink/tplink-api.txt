@@ -1,0 +1,27 @@
+======== HS ========
+
+**** the simulation of the device ****
+1. HS100
+(1) cd tplink/simulator
+(2) ./create_network_interface_100.sh (192.168.100.20)
+(3) node simulator_hs100.js
+
+2. HS110
+(1) cd tplink/simulator
+(2) ./create_network_interface_110.sh (192.168.100.21)
+(3) node simulator_hs110.js
+
+**** HS-API ****
+tplink-smarthome-api send 192.168.100.20 for HS100
+tplink-smarthome-api send 192.168.100.21 for HS110
+
+1. getInfo : get the information of HS100 or HS110
+(1) Content: '{"emeter":{"get_realtime":{}},"schedule":{"get_next_action":{}},"system":{"get_sysinfo":{}},"cnCloud":{"get_info":{}}}'
+(2) Response: '{"emeter":{"get_realtime":{"err_code":-1,"err_msg":"module not support"}},"schedule":{"get_next_action":{"type":-1,"err_code":0}},"system":{"get_sysinfo":{"sw_ver":"1.2.5 Build 171129 Rel.174814","hw_ver":"1.0","type":"IOT.SMARTPLUGSWITCH","model":"HS100(US)","dev_name":"Wi-Fi Smart Plug","icon_hash":"","relay_state":0,"on_time":0,"active_mode":"schedule","feature":"TIM","updating":0,"rssi":-65,"led_off":0,"alias":"Mock HS100","deviceId":"A100","hwId":"ECE736F132F584A4590C07AE56DC0ECE","oemId":"A98E7DFD731355B48D2FD34DB3B5962B","latitude":"-45.2448","latitude_i":-452448,"longitude":"-71.0709","longitude_i":-710709,"mac":"50:c7:bf:8f:58:18","err_code":0}},"cnCloud":{"get_info":{"username":"","server":"devs.tplinkcloud.com","binded":0,"cld_connection":1,"illegalType":0,"stopConnect":0,"tcspStatus":1,"fwDlPage":"","tcspInfo":"","fwNotifyType":0,"err_code":0}}}'
+
+2. setPowerState : Turns Plug on/off
+(1) Content: '{"system":{"set_relay_state":{"state":1}}}'
+(2) Response: '{"system":{"set_relay_state":{"err_code":0}}}'
+
+3. setLEDState:
+(1) Content: {"system":{"set_led_off":{"off":0}}}}

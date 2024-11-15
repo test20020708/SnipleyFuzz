@@ -1,0 +1,20 @@
+======== yeelight ========
+is_crash: False
+0h: (seed number: 0, Path number: 0, Mutation Times: 0)
+1h: (seed number: 7, Path number: 90, Mutation Times: 20.75)
+2h: (seed number: 11, Path number: 181, Mutation Times: 11.75)
+3h: (seed number: 15, Path number: 273, Mutation Times: 7.769230769230769)
+4h: (seed number: 18, Path number: 344, Mutation Times: 6.5625)
+5h: (seed number: 21, Path number: 407, Mutation Times: 5.7894736842105265)
+6h: (seed number: 24, Path number: 472, Mutation Times: 5.428571428571429)
+
+======== Snipuzz_yeelight ========
+is_crash: False
+0h: (seed number: 0, Path number: 0, Mutation Times: 0)
+1h: (seed number: 4, Path number: 14, Mutation Times: 648.5)
+2h: (seed number: 4, Path number: 14, Mutation Times: 648.5)
+3h: (seed number: 4, Path number: 14, Mutation Times: 648.5)
+4h: (seed number: 4, Path number: 14, Mutation Times: 648.5)
+5h: (seed number: 4, Path number: 14, Mutation Times: 648.5)
+6h: (seed number: 4, Path number: 14, Mutation Times: 648.5)
+

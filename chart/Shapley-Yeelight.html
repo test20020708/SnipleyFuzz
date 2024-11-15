@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts/5.5.0/files/dist/echarts.min.js"></script>
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    
+    var option;
+
+    option = {
+  title: {
+    text: 'Shapley值有效性实验',
+    subtext: 'Yeelight-YLDP05YL',
+    left: 'center'
+  },
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    top: 'bottom'
+  },
+  toolbox: {
+    show: true,
+    feature: {
+      mark: { show: true },
+      dataView: { show: true, readOnly: false },
+      restore: { show: true },
+      saveAsImage: { show: true }
+    }
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: ['65%', '75%'],
+      labelLine: {
+        length: 30
+      },
+      center: ['50%', '50%'],
+      data: [
+        { value: 2, name: 'Snippet 0' },
+        { value: 18, name: 'Snippet 1' },
+        { value: 79, name: 'Snippet 2' },
+        { value: 70, name: 'Snippet 3' },
+      ]
+    },
+    {
+      name: 'Nightingale Chart',
+      type: 'pie',
+      radius: [50, 150],
+      center: ['50%', '50%'],
+      roseType: 'area',
+      itemStyle: {
+        borderRadius: 8
+      },
+      labelLine: {
+        length: 20
+      },
+      data: [
+        { value: 2, name: 'Snippet 0' },
+        { value: 18, name: 'Snippet 1' },
+        { value: 79, name: 'Snippet 2' },
+        { value: 70, name: 'Snippet 3' },
+        { value: 0.5, name: 'Snippet 4' },
+        { value: 0.5, name: 'Snippet 5' },
+        { value: 0.5, name: 'Snippet 6' },
+        { value: 0.5, name: 'Snippet 7' },
+        { value: 0.5, name: 'Snippet 8' },
+        { value: 0.5, name: 'Snippet 9' },
+        { value: 0.5, name: 'Snippet 10' },
+        { value: 0.5, name: 'Snippet 11' },
+        { value: 0.5, name: 'Snippet 12' },
+        { value: 0.5, name: 'Snippet 13' },
+        { value: 0.5, name: 'Snippet 14' },
+        { value: 0.5, name: 'Snippet 15' },
+        { value: 0.5, name: 'Snippet 16' },
+        { value: 0.5, name: 'Snippet 17' },
+        { value: 0.5, name: 'Snippet 18' },
+        { value: 0.5, name: 'Snippet 19' },
+        { value: 0.5, name: 'Snippet 20' },
+        { value: 0.5, name: 'Snippet 21' },
+        { value: 0.5, name: 'Snippet 22' },
+        { value: 0.5, name: 'Snippet 23' },
+      ]
+    }
+  ]
+};
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>

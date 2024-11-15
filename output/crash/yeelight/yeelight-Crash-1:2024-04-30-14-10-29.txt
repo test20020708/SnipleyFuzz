@@ -1,0 +1,8 @@
+Message Index-0
+IP:192.168.1.10
+
+Port:55443
+
+Content:{"id":111111111111{{21{"id"{:111111111111{{21{"id"{:111111111111{{21{"id"{:111111111111{{21{"id"{6"method:"get_prop","params"["colopower"]}
+
+

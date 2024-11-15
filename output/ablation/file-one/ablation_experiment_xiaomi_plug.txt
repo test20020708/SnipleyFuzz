@@ -1,0 +1,42 @@
+======== xiaomi_plug-M-SN ========
+is_crash: False
+0h: (seed number: 2, Path number: 13, Mutation Times: 0.0)
+1h: (seed number: 2, Path number: 13, Mutation Times: 0.0)
+2h: (seed number: 2, Path number: 13, Mutation Times: 0.0)
+3h: (seed number: 2, Path number: 14, Mutation Times: 0.0)
+4h: (seed number: 3, Path number: 17, Mutation Times: 196.0)
+5h: (seed number: 4, Path number: 21, Mutation Times: 147.0)
+6h: (seed number: 4, Path number: 22, Mutation Times: 147.0)
+7h: (seed number: 5, Path number: 26, Mutation Times: 119.66666666666667)
+8h: (seed number: 5, Path number: 27, Mutation Times: 119.66666666666667)
+9h: (seed number: 6, Path number: 29, Mutation Times: 120.75)
+10h: (seed number: 6, Path number: 32, Mutation Times: 120.75)
+
+======== xiaomi_plug-M-S ========
+is_crash: False
+0h: (seed number: 2, Path number: 13, Mutation Times: 0.0)
+1h: (seed number: 2, Path number: 14, Mutation Times: 0.0)
+2h: (seed number: 2, Path number: 15, Mutation Times: 0.0)
+3h: (seed number: 3, Path number: 16, Mutation Times: 97.0)
+4h: (seed number: 3, Path number: 16, Mutation Times: 97.0)
+5h: (seed number: 3, Path number: 16, Mutation Times: 97.0)
+6h: (seed number: 3, Path number: 16, Mutation Times: 97.0)
+7h: (seed number: 3, Path number: 16, Mutation Times: 97.0)
+8h: (seed number: 3, Path number: 16, Mutation Times: 97.0)
+9h: (seed number: 3, Path number: 16, Mutation Times: 97.0)
+10h: (seed number: 3, Path number: 16, Mutation Times: 97.0)
+
+======== xiaomi_plug ========
+is_crash: False
+0h: (seed number: 2, Path number: 13, Mutation Times: 0.0)
+1h: (seed number: 2, Path number: 15, Mutation Times: 0.0)
+2h: (seed number: 3, Path number: 17, Mutation Times: 14.0)
+3h: (seed number: 3, Path number: 19, Mutation Times: 14.0)
+4h: (seed number: 4, Path number: 22, Mutation Times: 32.0)
+5h: (seed number: 5, Path number: 25, Mutation Times: 32.0)
+6h: (seed number: 5, Path number: 27, Mutation Times: 32.0)
+7h: (seed number: 6, Path number: 28, Mutation Times: 25.5)
+8h: (seed number: 7, Path number: 30, Mutation Times: 24.8)
+9h: (seed number: 7, Path number: 32, Mutation Times: 24.8)
+10h: (seed number: 8, Path number: 33, Mutation Times: 24.666666666666668)
+

@@ -1,0 +1,39 @@
+======== xiaomi_camera-M-S ========
+is_crash: False
+0h: (seed number: 2, Path number: 10)
+1h: (seed number: 2, Path number: 10)
+2h: (seed number: 3, Path number: 11)
+3h: (seed number: 4, Path number: 14)
+4h: (seed number: 4, Path number: 14)
+5h: (seed number: 4, Path number: 14)
+6h: (seed number: 4, Path number: 15)
+7h: (seed number: 5, Path number: 18)
+8h: (seed number: 5, Path number: 18)
+9h: (seed number: 5, Path number: 18)
+
+======== xiaomi_camera ========
+is_crash: False
+0h: (seed number: 2, Path number: 10)
+1h: (seed number: 3, Path number: 14)
+2h: (seed number: 4, Path number: 18)
+3h: (seed number: 5, Path number: 26)
+4h: (seed number: 6, Path number: 29)
+5h: (seed number: 7, Path number: 31)
+6h: (seed number: 8, Path number: 40)
+7h: (seed number: 9, Path number: 40)
+8h: (seed number: 9, Path number: 40)
+9h: (seed number: 9, Path number: 40)
+
+======== xiaomi_camera-M-SN ========
+is_crash: False
+0h: (seed number: 2, Path number: 10)
+1h: (seed number: 2, Path number: 10)
+2h: (seed number: 2, Path number: 13)
+3h: (seed number: 3, Path number: 13)
+4h: (seed number: 3, Path number: 14)
+5h: (seed number: 4, Path number: 18)
+6h: (seed number: 5, Path number: 22)
+7h: (seed number: 6, Path number: 27)
+8h: (seed number: 6, Path number: 28)
+9h: (seed number: 7, Path number: 29)
+

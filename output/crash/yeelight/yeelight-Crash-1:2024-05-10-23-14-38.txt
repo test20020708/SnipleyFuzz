@@ -1,0 +1,8 @@
+Message Index-0
+IP:192.168.1.10
+
+Port:55443
+
+Content:{"id":1d{5"method{.:"smethod{.:"smethod{.:"smethod{.:"smethod{.:"set_ct_abx","params":[3500,"",500]}
+
+

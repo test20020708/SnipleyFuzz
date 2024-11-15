@@ -1,0 +1,26 @@
+======== xiaomi_plug ========
+is_crash: False
+0h: (seed number: 0, Path number: 0, Mutation Times: 0)
+1h: (seed number: 2, Path number: 14, Mutation Times: 0.0)
+2h: (seed number: 3, Path number: 15, Mutation Times: 12.0)
+3h: (seed number: 4, Path number: 18, Mutation Times: 26.0)
+4h: (seed number: 4, Path number: 19, Mutation Times: 26.0)
+5h: (seed number: 4, Path number: 23, Mutation Times: 26.0)
+6h: (seed number: 5, Path number: 24, Mutation Times: 87.66666666666667)
+7h: (seed number: 5, Path number: 26, Mutation Times: 87.66666666666667)
+8h: (seed number: 6, Path number: 27, Mutation Times: 93.75)
+9h: (seed number: 7, Path number: 32, Mutation Times: 89.4)
+
+======== Snipuzz_xiaomi_plug ========
+is_crash: False
+0h: (seed number: 0, Path number: 0, Mutation Times: 0)
+1h: (seed number: 2, Path number: 14, Mutation Times: 0.0)
+2h: (seed number: 3, Path number: 18, Mutation Times: 45.0)
+3h: (seed number: 4, Path number: 21, Mutation Times: 33.5)
+4h: (seed number: 4, Path number: 23, Mutation Times: 33.5)
+5h: (seed number: 5, Path number: 25, Mutation Times: 47.333333333333336)
+6h: (seed number: 6, Path number: 25, Mutation Times: 36.25)
+7h: (seed number: 6, Path number: 26, Mutation Times: 36.25)
+8h: (seed number: 7, Path number: 29, Mutation Times: 57.2)
+9h: (seed number: 7, Path number: 30, Mutation Times: 57.2)
+

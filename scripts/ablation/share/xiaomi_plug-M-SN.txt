@@ -1,0 +1,4 @@
+seed-number: 6
+path-number: 32
+crash-number: 0
+mutation-number: 120.75
